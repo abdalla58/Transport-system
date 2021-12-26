@@ -16,7 +16,7 @@ public class personalInfo {
     public void setName(String name) {
         Name = name;
     }
-    public String getName() {
+    public String getUserName() {
         return Name;
     }
     public void setEmail(String email) {
