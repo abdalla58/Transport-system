@@ -6,41 +6,44 @@ import java.util.*;
 public class admin {
 
     private Queue<driver> appendDrivers = new LinkedList<driver>();
-    public void addToAppendingDrivers(driver d) {
-        appendDrivers.add(d);
+    private ArrayList<driver> pendingDrivers=new ArrayList<driver>();
+    public void addToAppendingDrivers(driver driver) {
+        pendingDrivers.add(driver);
     }
-    public void verifyDrivers()
-    {
-        database database=new database();
-        Scanner scanner = new Scanner(System.in);
-        while (!appendDrivers.isEmpty()){
-            appendDrivers.peek().toString();
+    Scanner scanner = new Scanner(System.in);
+
+    public void verifyDrivers() {
+        System.out.println("work");
+        for (int i=0;i<pendingDrivers.size();i++){
+            System.out.println(pendingDrivers.get(i).getUserName());
             System.out.println("1- Accept, 2- Deny");
-            int input = scanner.nextInt();
-            if (input==1){
-                database.addDrivers(appendDrivers.poll());
-            }else if (input==2){
-                appendDrivers.poll();
+            int userInput = scanner.nextInt();
+            if(userInput == 1) {
+                database.getData().addDrivers(pendingDrivers.get(i));
+                pendingDrivers.remove(i);
+            }
+            else if(userInput == 2) {
+                pendingDrivers.remove(i);
             }
         }
     }
     public void suspend_driver(String name)
     {
         database x=new database();
-        x.removeDriverFromSystem(name);
+        x.getData().suspendDriver(name);
     }
     public void suspend_user(String name)
     {
         database x=new database();
-        x.removeUserFromSystem(name);
+        x.getData().suspendUser(name);
     }
     public void DisplayAllUsers() {
         database x=new database();
-        x.displayUsers();
+        x.getData().displayUsers();
     }
     public void DisplayAllDrivers() {
         database x=new database();
-        x.displayDrivers();
+        x.getData().displayDrivers();
     }
 
 }
