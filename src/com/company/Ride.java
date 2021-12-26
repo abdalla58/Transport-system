@@ -1,4 +1,4 @@
-package com.company;
+ package com.company;
 import java.util.HashMap;
 
 public class Ride {
@@ -15,11 +15,11 @@ public class Ride {
         availableDrivers = new HashMap<Double, driver>();
     }
 
-    public void completeTheRide(driver iDriver, double cost) {
+    public void completeTheRide(driver driver, double cost) {
         this.taken = true;
         this.availableDrivers= null;
-        //iDriver.addCompleteRide(this);
-        this.mainDriver = iDriver;
+        driver.addCompleteRide(this);
+        this.mainDriver = driver;
         this.setCost(cost);
 
     }
@@ -64,7 +64,6 @@ public class Ride {
         return "Source= " + this.getSource() + ", Destination= " + this.getDestination();
     }
     public String displayRide() {
-        //return "Source= " + this.getSource() + "\nDestination= " + this.getDestination() + "\nCost= " + this.getCost() + "\nDriver= " + this.getDriver().getUserName();
-        return null;
+        return "Source= " + this.getSource() + "\nDestination= " + this.getDestination() + "\nCost= " + this.getCost() + "\nDriver= " + this.getDriver().getUserName();
     }
 }
