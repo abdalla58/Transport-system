@@ -13,8 +13,6 @@ public class user extends personalInfo implements rate{
         super(Name, email, phone,password);
     }
     public user(){}
-
-
     public void setArea_destination(String area_destination) {
         this.area_destination = area_destination;
     }
