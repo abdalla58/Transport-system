@@ -35,6 +35,10 @@ public class driver extends personalInfo implements Drivers{
         this.sumOfRate += rate;
         this.averageRating = (double) this.sumOfRate /  myRatings.size();
     }
+    public double getAvgRate() {
+
+        return this.averageRating;
+    }
     public void addToMyRatings(rate iClient, int rate){
         myRatings.put(iClient, rate);
     }
@@ -51,6 +55,7 @@ public class driver extends personalInfo implements Drivers{
             if(userInput.equals("0"))
                 break;
             favAreas.add(userInput);
+            System.out.println("or enter 0 to end");
         }
     }
     public void setOffer() {
@@ -63,6 +68,9 @@ public class driver extends personalInfo implements Drivers{
             pendingRides.peek().addToMap(this, cost);
             pendingRides.poll();
         }
+    }
+    public void addCompleteRide(Ride myRide) {
+        completeRides.add(myRide);
     }
     public void displayRatings() {
         System.out.println(this.myRatings.toString());
@@ -80,9 +88,9 @@ public class driver extends personalInfo implements Drivers{
 
     @Override
     public String toString() {
-        return "userName= " + this.getName() ;
+        return "userName= " + this.getUserName() + ", AvgRate= " + this.getAvgRate();
     }
     public String displayData() {
-        return "userName= " + this.getName() + "\nNationalId= " + this.getNationalID() + "\nLicense= " + this.getLicence() + "\nMobile= " + this.getPhone() ;
+        return "userName= " + this.getUserName() + "\nNationalId= " + this.getNationalID() + "\nLicense= " + this.getLicence() + "\nMobile= " + this.getPhone() ;
     }
 }
