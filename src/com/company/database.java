@@ -1,61 +1,65 @@
-package com.company;
+ package com.company;
 
 import java.util.*;
 
 public class database {
+    public static database data;
     private ArrayList<user> users=new ArrayList<user>();
+    private ArrayList<user> suspendUsers=new ArrayList<user>();
     private ArrayList<driver> drivers=new ArrayList<driver>();
-    private Map<String,String> areas=new HashMap<String,String>();
+    private ArrayList<driver> suspendDrivers=new ArrayList<driver>();
 
-    private Map<driver,Integer> rt=new HashMap<driver,Integer>();
-    private int count=1,sum=1;
-    public int avg=0;
+    public static database getData() {
+        if (data==null){
+            data=new database();
+        }
+
+        return data;
+    }
     public void addUsers(user u) {
         users.add(u);
     }
     public void addDrivers(driver driver){
         drivers.add(driver);
+        RideController.addDriver(driver);
     }
-    public driver driverNameExists(String name) {
+    public driver checkDriver(String name) {
         for(driver driver: drivers) {
-            if(driver.getName().equals(name))
+            if(driver.getUserName().equals(name))
                 return driver;
         }
         return null;
     }
-    public user clientNameExists(String name) {
+    public user checkUser(String name) {
         for(user user: users) {
-            if(user.getName().equals(name))
+            if(user.getUserName().equals(name))
                 return user;
         }
         return null;
     }
-//    public void userareas(String name,String area ){
-//        for (int i = 0; i < users.size(); i++) {
-//            areasofuser.put(users.get(i).Name,area);
-//        }
-//    }
-
-
-    public void removeDriverFromSystem(String name) {
-        driver Driver = driverNameExists(name);
+    
+    public void suspendDriver(String name) {
+        driver Driver = checkDriver(name);
         if(Driver != null) {
+            suspendDrivers.add(Driver);
             drivers.remove(Driver);
+            RideController.removeDriver(Driver);
         }else {
             System.out.println("There's no such a driver.");
         }
     }
-    public void removeUserFromSystem(String name) {
-        user user = clientNameExists(name);
+    public void suspendUser(String name) {
+        user user = checkUser(name);
         if(user != null) {
+            suspendUsers.add(user);
             users.remove(user);
         }else {
-            System.out.println("There's no such a client.");
+            System.out.println("There's no such a user.");
         }
     }
     public void displayDrivers(){
         for (int i=0;i<drivers.size();i++) {
-            System.out.println("driver name:"+drivers.get(i).getName());
+            System.out.println("driver name:"+drivers.get(i).getUserName());
             System.out.println("driver Phone:"+drivers.get(i).getPhone());
             System.out.println("driver Email:"+drivers.get(i).getEmail());
             System.out.println("driver Licence:"+drivers.get(i).getLicence());
@@ -63,7 +67,7 @@ public class database {
         }
     }public void displayUsers(){
         for (int i=0;i<users.size();i++) {
-            System.out.println("user name:"+users.get(i).getName());
+            System.out.println("user name:"+users.get(i).getUserName());
             System.out.println("user Phone:"+users.get(i).getPhone());
             System.out.println("user Email:"+users.get(i).getEmail());
         }
@@ -94,61 +98,6 @@ public class database {
         }
         return f;
     }
-    public boolean matchArea(String source){
-        boolean f=true;
-        Set entrySet = areas.entrySet();
-        for (String sources : areas.values()){
-            if (source.equals(sources)){
-                String S= String.valueOf(areas.keySet());
-                System.out.println(S);
-                f=true;
-                break;
-            }else{
-                f= false;
-                 break;
-            }
-        }
-//        for (int i = 0; i < drivers.size(); i++) {
-//             if (a.getValue().equalsIgnoreCase(source)){
-//                 dr= a.getKey();
-//                 System.out.println( "your driver is" + dr);
-//                 f= true;
-//                 break;
-//             }else{
-//                 f= false;
-//                 break;
-//             }
-//        }
-        return f;
-    }
-//    public boolean matchAreaofuser(String area){
-//        boolean f=true;
-//        Set entrySet = areasofuser.entrySet();
-//        for (String sources : areasofuser.values()){
-//            if (area.equals(sources)){
-//                String S= String.valueOf(areasofuser.values());
-//                System.out.println( "there is a ride in " +S );
-//                f=true;
-//                break;
-//            }else{
-//                f= false;
-//                break;
-//            }
-//        }
-//        Map.Entry<String, String> a = (Map.Entry<String, String>) areasofuser;
-//        for (int i = 0; i < users.size(); i++) {
-//            if (a.getValue().equalsIgnoreCase(area)){
-//                System.out.println( "there is a ride in " +a.getValue() );
-//                f= true;
-//                break;
-//            }else{
-//                f= false;
-//                break;
-//            }
-//        }
-//        return f;
-//    }
-
 }
 
 
