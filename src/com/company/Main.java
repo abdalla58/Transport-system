@@ -4,19 +4,22 @@ import java.util.Scanner;
 
 public class Main {
 
-//
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         controller controller=new controller();
         database database=new database();
         user user=new user("ahmed","a@a.com",010,"a");
         driver driver=new driver("ahmed","a@a.com",010,"a","cu",300);
+        database.addDrivers(driver);
+        database.addUsers(user);
+        ///database.displayUsers();
+        //database.displayDrivers();
         while(true) {
             controller.mainMenu();
             String userInput = input.next();
             if(userInput.equals("1")) {
                 while(true) {
-                    controller.EnteringMenu();
+                    controller.Menu();
                     userInput = input.next();
                     if(userInput.equals("1")) {
                         controller.loginUSer();
@@ -34,7 +37,7 @@ public class Main {
             }
             else if(userInput.equals("2")) {
                 while(true) {
-                    controller.EnteringMenu();
+                    controller.Menu();
                     userInput = input.next();
                     if(userInput.equals("1")) {
                         controller.loginDriver();
