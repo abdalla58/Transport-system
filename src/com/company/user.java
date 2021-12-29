@@ -7,6 +7,7 @@ public class user extends personalInfo implements rate{
 
     private String area_source;
     private String area_destination;
+    //3/1
     private ArrayList<Ride> pendingRides = new ArrayList<Ride>();
     private ArrayList<Ride> completeRides = new ArrayList<Ride>();
     public user(String Name, String email, int phone,String password) {

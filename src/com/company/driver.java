@@ -8,9 +8,11 @@ public class driver extends personalInfo implements Drivers{
     private HashMap<rate, Integer> myRatings = new HashMap<rate, Integer>();
     private int sumOfRate;
     private double averageRating;
-    private ArrayList<Ride> completeRides= new ArrayList<Ride>();
+    public ArrayList<Ride> completeRides= new ArrayList<Ride>();
     private Queue<Ride> pendingRides= new LinkedList<Ride>();
     private ArrayList<String> favAreas = new ArrayList<String>();
+    //Discount discount=new Discount();
+    private double price;
     public driver(){}
 
     public driver(String Name, String email, int phone, String password,String Licence,int NationalID) {
@@ -36,7 +38,6 @@ public class driver extends personalInfo implements Drivers{
         this.averageRating = (double) this.sumOfRate /  myRatings.size();
     }
     public double getAvgRate() {
-
         return this.averageRating;
     }
     public void addToMyRatings(rate iClient, int rate){
@@ -55,20 +56,20 @@ public class driver extends personalInfo implements Drivers{
             if(userInput.equals("0"))
                 break;
             favAreas.add(userInput);
-            System.out.println("or enter 0 to end");
+            System.out.println("enter 0 to end or");
         }
     }
     public void setOffer() {
         Scanner scanner = new Scanner(System.in);
-        double cost;
         while(!pendingRides.isEmpty()) {
             System.out.println(pendingRides.peek().toString());
             System.out.println("Enter your offer for this Ride: ");
-            cost = scanner.nextDouble();
-            pendingRides.peek().addToMap(this, cost);
+            price = scanner.nextDouble();
+            pendingRides.peek().addToMap(this, price);
             pendingRides.poll();
         }
     }
+    public double getPrice(){return price;}
     public void addCompleteRide(Ride myRide) {
         completeRides.add(myRide);
     }

@@ -5,13 +5,15 @@ public class Ride {
     private boolean taken = false;
     private String source;
     private String destination;
+    private int passengers;
     private driver mainDriver;
     private double cost;
     private HashMap<Double, driver> availableDrivers;
 
-    Ride(String s, String d){
+    Ride(String s, String d,int p){
         this.source = s;
         this.destination = d;
+        this.passengers=p;
         availableDrivers = new HashMap<Double, driver>();
     }
 

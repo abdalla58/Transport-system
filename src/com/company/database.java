@@ -8,7 +8,11 @@ public class database {
     private ArrayList<user> suspendUsers=new ArrayList<user>();
     private ArrayList<driver> drivers=new ArrayList<driver>();
     private ArrayList<driver> suspendDrivers=new ArrayList<driver>();
+    private ArrayList<String> specificAreas=new ArrayList<String>();
 
+//    public static database getInstance() {
+//        return data;
+//    }
     public static database getData() {
         if (data==null){
             data=new database();
@@ -98,6 +102,14 @@ public class database {
         }
         return f;
     }
+
+    public ArrayList<String> getSpecificAreas() {
+        return specificAreas;
+    }
+    public void addSpecificAreas(String area){
+        specificAreas.add(area);
+    }
+
 }
 
 

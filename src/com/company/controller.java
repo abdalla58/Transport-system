@@ -8,33 +8,36 @@ public class controller {
     private user user=new user();
     private driver driver=new driver();
     private admin admin=new admin();
+    private database database=new database();
+    private Event event=new Event();
+    //private Discount discount=new Discount();
     private RideController myController=new RideController();
     Scanner input=new Scanner(System.in);
     public void mainMenu() {
         System.out.println("Welcome, Enter as:");
-        System.out.println("1- Client");
+        System.out.println("1- User");
         System.out.println("2- Driver");
         System.out.println("3- Admin");
         System.out.println("Enter 0 to Exit");
     }
-    public void EnteringMenu() {
+    public void Menu() {
         System.out.println("1- Sign in");
         System.out.println("2- Sign up");
         System.out.println("Enter 0 to return");
     }
-    public void clientMainMenu() {
-        System.out.println("Welcome Client " + user.getName());
+    public void userMenu() {
+        System.out.println("Welcome ");
         System.out.println("1- Take a ride");
         System.out.println("2- Display my complete rides");
         System.out.println("3- Display my pending rides");
         System.out.println("4- Sign out");
     }
-    public void driverMainMenu() {
-        System.out.println("Welcome Driver " + driver.getName());
+    public void driverMenu() {
+        System.out.println("Welcome Driver " + driver.getUserName());
         System.out.println("1- Show available rides");
         System.out.println("2- Show Client Ratings");
         System.out.println("3- Show Favorite Areas");
-        System.out.println("4- Add favortite Area");
+        System.out.println("4- Add favourite Area");
         System.out.println("5- Sign out");
     }
     public void adminMainMenu() {
@@ -42,6 +45,7 @@ public class controller {
         System.out.println("1-Accept pending drivers");
         System.out.println("2- Delete driver");
         System.out.println("3- Delete client");
+        System.out.println("4- Add Specific Area");
         System.out.println("Enter 0 to return");
     }
     public void registerUser()
@@ -59,11 +63,9 @@ public class controller {
         System.out.println("enter your password");
         String pass=input.next();
         user.setPassword(pass);
-        database database=new database();
-        database.addUsers(user);
+        database.addUsers(new user(name,email,phone,pass));
     }
     public void registerDriver(){
-        driver driver=new driver();
         System.out.println("enter your name");
         String name=input.next();
         driver.setName(name);
@@ -82,8 +84,7 @@ public class controller {
         System.out.println("enter your NationalID");
         int NationalID=input.nextInt();
         driver.setNationalID(NationalID);
-        admin admin=new admin();
-        admin.addToAppendingDrivers(driver);
+        admin.addToAppendingDrivers(new driver(name,email,phone,pass,Licence,NationalID));
     }
     public void loginDriver(){
         database database=new database();
@@ -92,27 +93,30 @@ public class controller {
         System.out.println("enter your password");
         String userpass=input.next();
         database.checkDriver(username,userpass);
+        label:
         while (true){
-            driverMainMenu();
+            driverMenu();
             String Input = input.next();
-            if(Input.equals("1")) {
-                this.driver.setOffer();
-            }
-            else if(Input.equals("2")) {
-                this.driver.displayRatings();
-            }
-            else if(Input.equals("3")) {
-                this.driver.displayFavAreas();
-            }
-            else if(Input.equals("4")) {
-                this.driver.setFavAreas();
-            }
-            else if(Input.equals("5")) {
-                this.driver = null;
-                break;
-            }
-            else {
-                System.out.println("Wrong Input");
+            switch (Input) {
+                case "1":
+                    this.driver.setOffer();
+                    event.priceAskEvent();
+                    break;
+                case "2":
+                    this.driver.displayRatings();
+                    break;
+                case "3":
+                    this.driver.displayFavAreas();
+                    break;
+                case "4":
+                    this.driver.setFavAreas();
+                    break;
+                case "5":
+                    this.driver = null;
+                    break label;
+                default:
+                    System.out.println("Wrong Input");
+                    break;
             }
         }
 
@@ -125,21 +129,24 @@ public class controller {
         String userPass=input.next();
         database.checkUser(username,userPass);
         while(true) {
-            clientMainMenu();
+            userMenu();
             String Input2 = input.next();
             if(Input2.equals("1")) {
-                String source, dest;
-                System.out.println("Enter your source and destination space separated");
+                String source, dest;int numOfPassengers;
+                System.out.println("Enter your Source Area & Destination Area ");
                 source = input.next();
                 dest = input.next();
-                Ride curr = new Ride(source,dest);
+                System.out.println("enter the number of passengers");
+                numOfPassengers=input.nextInt();
+                Ride curr = new Ride(source,dest,numOfPassengers);
+                //discount.passengersDiscount(numOfPassengers);
                 this.user.addRideToPending(curr);
                 myController.notifyDrivers(curr);
-                System.out.println("Searching for available Drivers...");
+                System.out.println("Search for available Drivers");
             }
             else if(Input2.equals("2")) {
                 user.displayCompleted();
-                System.out.println("Choose a ride to rate its driver: ");
+                System.out.println("please Choose a trip to rate its driver: ");
                 Input2 = input.next();
                 int index = Integer.parseInt(Input2);
                 if(index >= 1 && index <= user.getSizeOfCompleted()) {
@@ -147,24 +154,24 @@ public class controller {
                     driver iDriver = iRide.getDriver();
                     user.rateDriver(iDriver);
                 }else {
-                    System.out.println("Wrong input");
+                    System.out.println("Wrong Input");
                 }
 
             }
             else if(Input2.equals("3")) {
                 user.displayPending();
-                System.out.println("Choose your Ride");
+                System.out.println("Choose your trip");
                 Input2 = input.next();
                 int index = Integer.parseInt(Input2);
                 if( index >= 1 && index <= user.getSizeOfPending()) {
-                    Ride curr =user.getPendingRide(index-1);
-                    curr.displayAvailable();
+                    Ride currentRide =user.getPendingRide(index-1);
+                    currentRide.displayAvailable();
                     System.out.println("Choose your Offer");
                     double cost = input.nextDouble();
-                    driver currDriver = curr.getOffer(cost);
-                    if(currDriver != null) {
-                        curr.completeTheRide(currDriver, cost);
-                        user.addRideToComplete(curr);
+                    driver driver = currentRide.getOffer(cost);
+                    if(driver != null) {
+                        currentRide.completeTheRide(driver, cost);
+                        user.addRideToComplete(currentRide);
                     }
                     else {
                         System.out.println("Wrong Input of cost.");
@@ -183,25 +190,32 @@ public class controller {
         }
     }
     public void adminControl(){
+        label:
         while(true) {
             adminMainMenu();
             String userInput = input.next();
-            if(userInput.equals("1")) {
-                admin.verifyDrivers();
-            }
-            else if(userInput.equals("2")) {
-                System.out.println("Enter the driver Name: ");
-                userInput = input.next();
-                admin.suspend_user(userInput);
-            }
-            else if(userInput.equals("3")) {
-                System.out.println("Enter the client Name: ");
-                userInput = input.next();
-                admin.suspend_driver(userInput);
-            }
-            else if(userInput.equals("0")) {
-                admin=null;
-                break;
+            switch (userInput) {
+                case "1":
+                    admin.verifyDrivers();
+                    break;
+                case "2":
+                    System.out.println("Enter the driver Name: ");
+                    userInput = input.next();
+                    admin.suspend_user(userInput);
+                    break;
+                case "3":
+                    System.out.println("Enter the user Name: ");
+                    userInput = input.next();
+                    admin.suspend_driver(userInput);
+                    break;
+                case "4" :
+                    System.out.println("please enter the area");
+                    userInput=input.nextLine();
+                    admin.addSpecificAreas(userInput);
+                    break;
+                case "0":
+                    admin = null;
+                    break label;
             }
         }
     }

@@ -7,11 +7,11 @@ public class admin {
 
     private Queue<driver> appendDrivers = new LinkedList<driver>();
     private ArrayList<driver> pendingDrivers=new ArrayList<driver>();
+    private database database=new database();
     public void addToAppendingDrivers(driver driver) {
         pendingDrivers.add(driver);
     }
     Scanner scanner = new Scanner(System.in);
-
     public void verifyDrivers() {
         System.out.println("work");
         for (int i=0;i<pendingDrivers.size();i++){
@@ -26,6 +26,9 @@ public class admin {
                 pendingDrivers.remove(i);
             }
         }
+    }
+    public void addSpecificAreas(String area){
+        database.addSpecificAreas(area);
     }
     public void suspend_driver(String name)
     {
@@ -45,5 +48,4 @@ public class admin {
         database x=new database();
         x.getData().displayDrivers();
     }
-
 }

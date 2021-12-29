@@ -1,19 +1,14 @@
 package com.company;
 
 import java.time.LocalTime;
-import java.util.Collections;
 
 public class Event {
-    private String eventName;
-    private driver driver=new driver();
-    private user user=new user();
-    private String eventTime;
 
-    public void setEventName(String eventName) {
-        this.eventName = eventName;
-    }
-    public String getEventName() {
-        return eventName;
+    private  driver driver=new driver();
+    private  user user=new user();
+    private String eventTime;
+    public Event(){
+
     }
     public String getCaptainName(){
         return driver.getUserName();
@@ -22,25 +17,25 @@ public class Event {
         return user.getUserName();
     }
     public void priceAskEvent(){
-        System.out.println(getEventName());
+        System.out.println("Captain put price");
         LocalTime myObj = LocalTime.now();
         System.out.println(myObj);
         System.out.println(getCaptainName());
         System.out.println(driver.getPrice());
     }
     public void priceAcceptEvent(){
-        System.out.println(getEventName());
+        System.out.println("client accepted the price");
         LocalTime myObj = LocalTime.now();
         System.out.println(myObj);
         System.out.println(getUserName());
     } public void arrivedLocationEvent(){
-        System.out.println(getEventName());
+        System.out.println("captain reached the location");
         LocalTime myObj = LocalTime.now();
         System.out.println(myObj);
         System.out.println(getCaptainName());
         System.out.println(getUserName());
     }public void arrivedDestinationEvent(){
-        System.out.println(getEventName());
+        System.out.println("captain reached the destination");
         LocalTime myObj = LocalTime.now();
         System.out.println(myObj);
         System.out.println(getCaptainName());
