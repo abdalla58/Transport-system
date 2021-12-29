@@ -28,7 +28,8 @@ public class admin {
         }
     }
     public void addSpecificAreas(String area){
-        database.addSpecificAreas(area);
+
+        database.getData().addSpecificAreas(area);
     }
     public void suspend_driver(String name)
     {

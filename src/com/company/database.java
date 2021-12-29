@@ -107,6 +107,7 @@ public class database {
         return specificAreas;
     }
     public void addSpecificAreas(String area){
+        System.out.println("area is added");
         specificAreas.add(area);
     }
 

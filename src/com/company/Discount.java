@@ -6,7 +6,7 @@ import java.util.Date;
 
 public class Discount {
     driver driver=new driver();
-    private database database=new database();
+    database database=new database();
     final double dis1 =0.1;
     final double dis2 =0.05;
     private double price;

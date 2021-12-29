@@ -5,13 +5,13 @@ import java.util.Scanner;
 
 public class controller {
     private ArrayList<String> favAreas = new ArrayList<String>();
-    private user user=new user();
-    private driver driver=new driver();
-    private admin admin=new admin();
-    private database database=new database();
-    private Event event=new Event();
-    //private Discount discount=new Discount();
-    private RideController myController=new RideController();
+     user user=new user();
+     driver driver=new driver();
+     admin admin=new admin();
+     database database=new database();
+     Event event=new Event();
+     Discount discount=new Discount();
+     RideController myController=new RideController();
     Scanner input=new Scanner(System.in);
     public void mainMenu() {
         System.out.println("Welcome, Enter as:");
@@ -209,8 +209,8 @@ public class controller {
                     admin.suspend_driver(userInput);
                     break;
                 case "4" :
-                    System.out.println("please enter the area");
-                    userInput=input.nextLine();
+                    System.out.println("please enter the area: ");
+                    userInput=input.next();
                     admin.addSpecificAreas(userInput);
                     break;
                 case "0":
