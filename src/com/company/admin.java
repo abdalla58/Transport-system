@@ -1,8 +1,6 @@
 package com.company;
 
 
-import java.util.*;
-
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
@@ -14,7 +12,7 @@ public class admin {
     public void addToPendingDrivers(driver iDriver) {
         appendDrivers.add(iDriver);
     }
-    public void takeAction() {
+    public void verifyDrivers() {
 
         while(!appendDrivers.isEmpty()) {
             appendDrivers.peek().toString();

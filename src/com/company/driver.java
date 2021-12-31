@@ -71,6 +71,7 @@ public class driver extends personalInfo implements Drivers {
             if(userInput.equals("0"))
                 break;
             favAreas.add(userInput);
+            System.out.println("enter 0 to return or");
         }
     }
     public void setOffer() {

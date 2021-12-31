@@ -218,7 +218,7 @@ public class controller {
             this.string = input.next();
             switch (string) {
                 case "1":
-                    Admin.takeAction();
+                    Admin.verifyDrivers();
                     break;
                 case "2":
                     System.out.println("Enter the driver userName: ");
