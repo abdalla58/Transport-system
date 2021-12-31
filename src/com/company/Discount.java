@@ -5,8 +5,8 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class Discount {
-    driver driver=new driver();
-    database database=new database();
+    private driver driver;
+    database d =database.getData();
     final double dis1 =0.1;
     final double dis2 =0.05;
     private double price;
@@ -18,7 +18,6 @@ public class Discount {
     public double getPrice() {
         return price;
     }
-
     public void firstTripDiscount(){
         if (driver.completeRides.isEmpty()){
             setPrice( driver.getPrice() * dis1);
@@ -26,8 +25,8 @@ public class Discount {
             setPrice(driver.getPrice());
     }
     public void adminAreaDiscount(String destination){
-     for (int i=0;i<database.getSpecificAreas().size();i++){
-         if (destination.equals(database.getSpecificAreas().get(i))){
+     for (int i = 0; i< d.getSpecificAreas().size(); i++){
+         if (destination.equals(d.getSpecificAreas().get(i))){
              setPrice( driver.getPrice() * dis1);
          }else
              setPrice(driver.getPrice() * dis1);

@@ -10,10 +10,11 @@ public class driver extends personalInfo implements Drivers {
 
     private String license;
     private String nationalId;
+    private Discount discount;
     private HashMap<rate, Integer> myRatings = new HashMap<rate, Integer>();
     private int sumOfRate;
     private double averageRating;
-    private ArrayList<Ride> completeRides= new ArrayList<Ride>();
+    protected ArrayList<Ride> completeRides= new ArrayList<Ride>();
     private Queue<Ride> pendingRides= new LinkedList<Ride>();
     private ArrayList<String> favAreas = new ArrayList<String>();
     Scanner input = new Scanner(System.in);
@@ -45,6 +46,10 @@ public class driver extends personalInfo implements Drivers {
     public void clacAvergae(int rate) {
         this.sumOfRate += rate;
         this.averageRating = (double) this.sumOfRate /  myRatings.size();
+    }
+
+    public double getPrice() {
+        return price;
     }
 
     public String getNationalId() {
@@ -79,7 +84,7 @@ public class driver extends personalInfo implements Drivers {
             System.out.println(pendingRides.peek().toString());
             System.out.println("Enter your offer for this Ride: ");
             price = input.nextDouble();
-            pendingRides.peek().addToMap(this, price);
+            pendingRides.peek().addToMap(this,discount.getPrice() );
             pendingRides.poll();
         }
     }

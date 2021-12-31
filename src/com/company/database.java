@@ -79,6 +79,15 @@
          System.out.println("area is added");
          specificAreas.add(area);
      }
+
+     public void setSpecificAreas(ArrayList<String> specificAreas) {
+         this.specificAreas = specificAreas;
+     }
+
+     public ArrayList<String> getSpecificAreas() {
+         return specificAreas;
+     }
+
      public void displayAllDrivers() {
          System.out.println(drivers.toString());
      }

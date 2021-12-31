@@ -4,8 +4,8 @@ import java.time.LocalTime;
 
 public class Event {
 
-    private  driver driver=new driver();
-    private  user user=new user();
+    private  driver driver;
+    private  user user;
     private String eventTime;
     public Event(){
 
