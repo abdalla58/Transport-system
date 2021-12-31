@@ -1,21 +1,25 @@
 package com.company;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class controller {
-    private ArrayList<String> favAreas = new ArrayList<String>();
-     user user=new user();
-     driver driver=new driver();
-     admin admin=new admin();
-     database database=new database();
-     Event event=new Event();
-     Discount discount=new Discount();
-     RideController myController=new RideController();
-    Scanner input=new Scanner(System.in);
+    private user User;
+    private driver Driver;
+    private admin Admin;;
+    private RideController rideController;
+    private static database mydatabase;
+    private Scanner input;
+    private String string;
+
+    controller(){
+        Admin = new admin();
+        rideController = new RideController();
+        mydatabase = database.getData();
+        input = new Scanner(System.in);
+    }
     public void mainMenu() {
         System.out.println("Welcome, Enter as:");
-        System.out.println("1- User");
+        System.out.println("1- user");
         System.out.println("2- Driver");
         System.out.println("3- Admin");
         System.out.println("Enter 0 to Exit");
@@ -26,195 +30,212 @@ public class controller {
         System.out.println("Enter 0 to return");
     }
     public void userMenu() {
-        System.out.println("Welcome ");
+        System.out.println("Welcome user " + User.getUserName());
         System.out.println("1- Take a ride");
         System.out.println("2- Display my complete rides");
         System.out.println("3- Display my pending rides");
         System.out.println("4- Sign out");
     }
     public void driverMenu() {
-        System.out.println("Welcome Driver " + driver.getUserName());
+        System.out.println("Welcome Driver " + Driver.getUserName());
         System.out.println("1- Show available rides");
-        System.out.println("2- Show Client Ratings");
+        System.out.println("2- Show user Ratings");
         System.out.println("3- Show Favorite Areas");
-        System.out.println("4- Add favourite Area");
+        System.out.println("4- Add favorite Area");
         System.out.println("5- Sign out");
     }
     public void adminMainMenu() {
-        System.out.println("Welcome Admin ");
-        System.out.println("1-Accept pending drivers");
+        System.out.println("Welcome Admin");
+        System.out.println("1- Accept pending drivers");
         System.out.println("2- Delete driver");
-        System.out.println("3- Delete client");
-        System.out.println("4- Add Specific Area");
+        System.out.println("3- Delete user");
         System.out.println("Enter 0 to return");
     }
-    public void registerUser()
-    {
-        user user=new user();
-        System.out.println("enter your name");
-        String name=input.next();
-        user.setName(name);
-        System.out.println("enter your email");
-        String email=input.next();
-        user.setEmail(email);
-        System.out.println("enter your phone");
-        int phone=input.nextInt();
-        user.setPhone(phone);
-        System.out.println("enter your password");
-        String pass=input.next();
-        user.setPassword(pass);
-        database.addUsers(new user(name,email,phone,pass));
+    public void loginUSer() {
+        String userName,password;int numOfPassengers;
+        System.out.println("Enter your Name" );
+        userName = input.next();
+        System.out.println("Enter your password ");
+        password = input.next();
+        if(mydatabase.checkUser(userName, password) != null) {
+            this.User = mydatabase.checkUser(userName, password);
+            label:
+            while(true) {
+                userMenu();
+                string = input.next();
+                switch (string) {
+                    case "1":
+                        String source, dest;
+                        System.out.println("Enter your source and destination space separated");
+                        source = input.next();
+                        dest = input.next();
+                        System.out.println("enter the number of passengers");
+                        numOfPassengers=input.nextInt();
+                        Ride ride = new Ride(source, dest);
+                        this.User.addRideToPending(ride);
+                        rideController.notifyDrivers(ride);
+                        System.out.println("Searching for available Drivers...");
+                        break;
+                    case "2": {
+                        User.displayCompleted();
+                        System.out.println("Choose a ride to rate its driver: ");
+                        string = input.next();
+                        int i = Integer.parseInt(string);
+                        if (i >= 1 && i <= User.getSizeOfCompleted()) {
+                            Ride iride = User.getCompleteRide(i - 1);
+                            driver iDriver = iride.getDriver();
+                            User.rateDriver(iDriver);
+                        } else {
+                            System.out.println("Wrong input");
+                        }
+
+                        break;
+                    }
+                    case "3": {
+                        User.displayPending();
+                        System.out.println("Choose your Ride");
+                        string = input.next();
+                        int i = Integer.parseInt(string);
+                        if (i >= 1 && i <= User.getSizeOfPending()) {
+                            Ride curr = User.getPendingRide(i - 1);
+                            curr.displayAvailable();
+                            System.out.println("Choose your Offer");
+                            double cost = input.nextDouble();
+                            driver currDriver = curr.getOffer(cost);
+                            if (currDriver != null) {
+                                curr.completeTheRide(currDriver, cost);
+                                User.addRideToComplete(curr);
+                            } else {
+                                System.out.println("Wrong Input of cost.");
+                            }
+                        } else {
+                            System.out.println("Wrong input of rides number.");
+                        }
+                        break;
+                    }
+                    case "4":
+                        this.User = null;
+                        break label;
+                    default:
+                        System.out.println("Wrong Input");
+                        break;
+                }
+            }
+        }
+        else
+            System.out.println("There's no such a user");
     }
-    public void registerDriver(){
-        System.out.println("enter your name");
-        String name=input.next();
-        driver.setName(name);
-        System.out.println("enter your email");
-        String email=input.next();
-        driver.setEmail(email);
-        System.out.println("enter your phone");
-        int phone=input.nextInt();
-        driver.setPhone(phone);
+    public void registerUser() {
+        String userName; String pass; String mobile; String email;
+        System.out.println("Enter your Name");
+        userName = input.next();
         System.out.println("enter your password");
-        String pass=input.next();
-        driver.setPassword(pass);
+        pass = input.next();
+        System.out.println("enter your phone");
+        mobile = input.next();
+
+        if(mydatabase.userExistence(userName) == null) {
+            System.out.println("Want to add email? enter 0 to add");
+            string = input.next();
+            if(string.equals("0")) {
+                System.out.print("Enter your email: ");
+                email = input.next();
+                mydatabase.addUsers(new user(userName, pass, mobile, email));
+            }else
+                mydatabase.addUsers(new user(userName, pass, mobile));
+            System.out.println("You have created your account successfully;");
+        }
+        else
+            System.out.println("this user already exists");
+    }
+
+    public void loginDriver() {
+        String userName; String password;
+        System.out.println("Enter your Name ");
+        userName = input.next();
+        System.out.println("enter your password ");
+        password = input.next();
+        if(mydatabase.checkDriver(userName, password) != null) {
+            this.Driver = mydatabase.checkDriver(userName, password);
+            label:
+            while(true) {
+                driverMenu();
+                string = input.next();
+                switch (string) {
+                    case "1":
+                        this.Driver.setOffer();
+                        break;
+                    case "2":
+                        this.Driver.displayRatings();
+                        break;
+                    case "3":
+                        this.Driver.displayFavAreas();
+                        break;
+                    case "4":
+                        this.Driver.setFavAreas();
+                        break;
+                    case "5":
+                        this.Driver = null;
+                        break label;
+                    default:
+                        System.out.println("Wrong Input");
+                        break;
+                }
+            }
+        }
+    }
+    public void registerDriver() {
+        String userName,  pass,  mobile,  email,  license,  id;
+        System.out.println("Enter your Name");
+        userName = input.next();
+        System.out.println("enter your password");
+        pass = input.next();
+        System.out.println("enter your phone");
+        mobile = input.next();
         System.out.println("enter your Licence");
-        String Licence=input.next();
-        driver.setLicence(Licence);
+        license = input.next();
         System.out.println("enter your NationalID");
-        int NationalID=input.nextInt();
-        driver.setNationalID(NationalID);
-        admin.addToAppendingDrivers(new driver(name,email,phone,pass,Licence,NationalID));
-    }
-    public void loginDriver(){
-        database database=new database();
-        System.out.println("enter your name");
-        String username=input.next();
-        System.out.println("enter your password");
-        String userpass=input.next();
-        database.checkDriver(username,userpass);
-        label:
-        while (true){
-            driverMenu();
-            String Input = input.next();
-            switch (Input) {
-                case "1":
-                    this.driver.setOffer();
-                    event.priceAskEvent();
-                    break;
-                case "2":
-                    this.driver.displayRatings();
-                    break;
-                case "3":
-                    this.driver.displayFavAreas();
-                    break;
-                case "4":
-                    this.driver.setFavAreas();
-                    break;
-                case "5":
-                    this.driver = null;
-                    break label;
-                default:
-                    System.out.println("Wrong Input");
-                    break;
-            }
+        id = input.next();
+        if(mydatabase.driverExistence(userName) == null) {
+            System.out.println("Want to add email? enter 0 to add");
+            string = input.next();
+            if(string.equals("0")) {
+                System.out.print("Enter your email: ");
+                email = input.next();
+                Admin.addToPendingDrivers(new driver(userName, pass, mobile, email, license, id));
+            }else
+                Admin.addToPendingDrivers(new driver(userName, pass, mobile, license, id));
+            System.out.println("You have created your account successfully;");
         }
-
-    }public void loginUSer(){
-        user user=new user();
-        database database=new database();
-        System.out.println("enter your name");
-        String username=input.next();
-        System.out.println("enter your password");
-        String userPass=input.next();
-        database.checkUser(username,userPass);
-        while(true) {
-            userMenu();
-            String Input2 = input.next();
-            if(Input2.equals("1")) {
-                String source, dest;int numOfPassengers;
-                System.out.println("Enter your Source Area & Destination Area ");
-                source = input.next();
-                dest = input.next();
-                System.out.println("enter the number of passengers");
-                numOfPassengers=input.nextInt();
-                Ride curr = new Ride(source,dest,numOfPassengers);
-                //discount.passengersDiscount(numOfPassengers);
-                this.user.addRideToPending(curr);
-                myController.notifyDrivers(curr);
-                System.out.println("Search for available Drivers");
-            }
-            else if(Input2.equals("2")) {
-                user.displayCompleted();
-                System.out.println("please Choose a trip to rate its driver: ");
-                Input2 = input.next();
-                int index = Integer.parseInt(Input2);
-                if(index >= 1 && index <= user.getSizeOfCompleted()) {
-                    Ride iRide = user.getCompleteRide(index-1);
-                    driver iDriver = iRide.getDriver();
-                    user.rateDriver(iDriver);
-                }else {
-                    System.out.println("Wrong Input");
-                }
-
-            }
-            else if(Input2.equals("3")) {
-                user.displayPending();
-                System.out.println("Choose your trip");
-                Input2 = input.next();
-                int index = Integer.parseInt(Input2);
-                if( index >= 1 && index <= user.getSizeOfPending()) {
-                    Ride currentRide =user.getPendingRide(index-1);
-                    currentRide.displayAvailable();
-                    System.out.println("Choose your Offer");
-                    double cost = input.nextDouble();
-                    driver driver = currentRide.getOffer(cost);
-                    if(driver != null) {
-                        currentRide.completeTheRide(driver, cost);
-                        user.addRideToComplete(currentRide);
-                    }
-                    else {
-                        System.out.println("Wrong Input of cost.");
-                    }
-                }else {
-                    System.out.println("Wrong input of rides number.");
-                }
-            }
-            else if(Input2.equals("4")) {
-                this.user = null;
-                break;
-            }
-            else {
-                System.out.println("Wrong Input");
-            }
-        }
+        else
+            System.out.println("this driver already exists");
     }
-    public void adminControl(){
+
+    public void adminControl() {
         label:
         while(true) {
             adminMainMenu();
-            String userInput = input.next();
-            switch (userInput) {
+            this.string = input.next();
+            switch (string) {
                 case "1":
-                    admin.verifyDrivers();
+                    Admin.takeAction();
                     break;
                 case "2":
-                    System.out.println("Enter the driver Name: ");
-                    userInput = input.next();
-                    admin.suspend_user(userInput);
+                    System.out.println("Enter the driver userName: ");
+                    string = input.next();
+                    Admin.suspendDriver(string);
                     break;
                 case "3":
-                    System.out.println("Enter the user Name: ");
-                    userInput = input.next();
-                    admin.suspend_driver(userInput);
+                    System.out.println("Enter the client userName: ");
+                    string = input.next();
+                    Admin.suspendClient(string);
                     break;
                 case "4" :
                     System.out.println("please enter the area: ");
-                    userInput=input.next();
-                    admin.addSpecificAreas(userInput);
-                    break;
+                    string=input.next();
+                    Admin.addSpecificAreas(string);
                 case "0":
-                    admin = null;
+                    Admin = null;
                     break label;
             }
         }

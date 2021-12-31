@@ -1,37 +1,29 @@
 package com.company;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
-public class user extends personalInfo implements rate{
+public class user extends personalInfo implements rate {
 
-    private String area_source;
-    private String area_destination;
-    //3/1
     private ArrayList<Ride> pendingRides = new ArrayList<Ride>();
     private ArrayList<Ride> completeRides = new ArrayList<Ride>();
-    public user(String Name, String email, int phone,String password) {
-        super(Name, email, phone,password);
-    }
-    public user(){}
-    public void setArea_destination(String area_destination) {
-        this.area_destination = area_destination;
-    }
-    public String getArea_destination() {
-        return area_destination;
+
+    user(String userName, String password, String mobile){
+        super(userName, password, mobile);
     }
 
-    public void setArea_source(String area_source) {
-        this.area_source = area_source;
-    }
-
-    public String getArea_source() {
-        return area_source;
+    user(String userName, String password, String mobile, String email){
+        super(userName, password, mobile, email);
     }
 
     @Override
-    public void newRide(Ride myRide) {
-
+    public void rateDriver(driver driver) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter your rate from 1-5: ");
+        int rate = scanner.nextInt();
+        driver.addToMyRatings(this, rate);
+        driver.clacAvergae(rate);
     }
 
     public Ride getPendingRide(int index) {
@@ -61,12 +53,9 @@ public class user extends personalInfo implements rate{
     public void displayPending() {
         System.out.println(this.pendingRides.toString());
     }
+
     @Override
-    public void rateDriver(driver iDriver) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter your rate from 1-5: ");
-        int rate = scanner.nextInt();
-        iDriver.addToMyRatings(this, rate);
-        iDriver.clacAverage(rate);
+    public String toString() {
+        return "userName= " + this.getUserName();
     }
 }

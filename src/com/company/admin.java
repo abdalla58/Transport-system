@@ -3,50 +3,44 @@ package com.company;
 
 import java.util.*;
 
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Scanner;
+
 public class admin {
 
     private Queue<driver> appendDrivers = new LinkedList<driver>();
-    private ArrayList<driver> pendingDrivers=new ArrayList<driver>();
-    private database database=new database();
-    public void addToAppendingDrivers(driver driver) {
-        pendingDrivers.add(driver);
+    Scanner input = new Scanner(System.in);
+    public void addToPendingDrivers(driver iDriver) {
+        appendDrivers.add(iDriver);
     }
-    Scanner scanner = new Scanner(System.in);
-    public void verifyDrivers() {
-        System.out.println("work");
-        for (int i=0;i<pendingDrivers.size();i++){
-            System.out.println(pendingDrivers.get(i).getUserName());
+    public void takeAction() {
+
+        while(!appendDrivers.isEmpty()) {
+            appendDrivers.peek().toString();
             System.out.println("1- Accept, 2- Deny");
-            int userInput = scanner.nextInt();
+            int userInput = input.nextInt();
             if(userInput == 1) {
-                database.getData().addDrivers(pendingDrivers.get(i));
-                pendingDrivers.remove(i);
+                database.getData().addDrivers(appendDrivers.poll());
             }
             else if(userInput == 2) {
-                pendingDrivers.remove(i);
+                appendDrivers.poll();
             }
         }
     }
-    public void addSpecificAreas(String area){
-
-        database.getData().addSpecificAreas(area);
+    public void suspendDriver(String name) {
+        database.getData().suspendDriver(name);
     }
-    public void suspend_driver(String name)
-    {
-        database x=new database();
-        x.getData().suspendDriver(name);
+    public void suspendClient(String name) {
+        database.getData().suspendUser(name);
     }
-    public void suspend_user(String name)
-    {
-        database x=new database();
-        x.getData().suspendUser(name);
-    }
-    public void DisplayAllUsers() {
-        database x=new database();
-        x.getData().displayUsers();
+    public void DisplayAllClients() {
+        database.getData().displayAllDrivers();
     }
     public void DisplayAllDrivers() {
-        database x=new database();
-        x.getData().displayDrivers();
+        database.getData().displayAllClients();
+    }
+    public void addSpecificAreas(String area){
+        database.getData().addSpecificAreas(area);
     }
 }
