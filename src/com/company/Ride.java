@@ -28,7 +28,7 @@
      public void addToMap(driver iDriver, double cost) {
          availableDrivers.put(cost, iDriver);
      }
-     public void setCost(double cost) {//set cost
+     public void setCost(double cost) {
          discount.Discount(cost);
      }
      public void setDriver(driver iDriver) {
@@ -52,7 +52,7 @@
      public double getCost() {
          return this.cost;
      }
-     public int getSizeOfAvailable() {// function to set size of Available
+     public int getSizeOfAvailable() {
          return availableDrivers.size();
      }
      public void displayAvailable() {
