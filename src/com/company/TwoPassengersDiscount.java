@@ -9,7 +9,7 @@ public class TwoPassengersDiscount implements IDiscount{
     public void setNumOfPassengers(int numOfPassengers) {
         this.numOfPassengers = numOfPassengers;
     }
-
+    
     public int getNumOfPassengers() {
         return numOfPassengers;
     }
@@ -20,6 +20,7 @@ public class TwoPassengersDiscount implements IDiscount{
     public double getPrice() {
         return price;
     }
+    //override discount from interface
     @Override
     public double Discount(double cost) {
         if (getNumOfPassengers()==2){
