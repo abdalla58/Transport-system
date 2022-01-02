@@ -9,6 +9,7 @@ public class admin {
 
     private Queue<driver> appendDrivers = new LinkedList<driver>();
     Scanner input = new Scanner(System.in);
+    private database myData=database.getData();
     public void addToPendingDrivers(driver iDriver) {
         appendDrivers.add(iDriver);
     }
@@ -19,7 +20,7 @@ public class admin {
             System.out.println("1- Accept, 2- Deny");
             int userInput = input.nextInt();
             if(userInput == 1) {
-                database.getData().addDrivers(appendDrivers.poll());
+                myData.addDrivers(appendDrivers.poll());
             }
             else if(userInput == 2) {
                 appendDrivers.poll();
@@ -27,18 +28,19 @@ public class admin {
         }
     }
     public void suspendDriver(String name) {
-        database.getData().suspendDriver(name);
+        myData.suspendDriver(name);
     }
     public void suspendClient(String name) {
-        database.getData().suspendUser(name);
+        myData.suspendUser(name);
     }
     public void DisplayAllClients() {
-        database.getData().displayAllDrivers();
+        myData.displayAllDrivers();
     }
     public void DisplayAllDrivers() {
-        database.getData().displayAllClients();
+        myData.displayAllClients();
     }
     public void addSpecificAreas(String area){
-        database.getData().addSpecificAreas(area);
+        myData.addSpecificAreas(area);
     }
+    public void showEvent(){myData.getEvents();}
 }
