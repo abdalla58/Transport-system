@@ -12,9 +12,7 @@ public class Event {
     public String getCaptainName(){
         return driver.getUserName();
     }
-    public String getUserName(){
-        return user.getUserName();
-    }
+    
     public void priceAskEvent(){
         System.out.println("Captain put price");
         LocalTime myObj = LocalTime.now();
