@@ -20,14 +20,14 @@
          return Data;
      }
 
-     public driver checkDriver(String userName, String password) {
+     public driver checkDriver(String userName, String password) {//check account of driver
          for(driver driver: drivers) {
              if(driver.getUserName().equals(userName) && driver.getPassword().equals(password))
                  return driver;
          }
          return null;
      }
-     public user checkUser(String userName, String password) {
+     public user checkUser(String userName, String password) {//check account of user
          for(user user : users) {
              if(user.getUserName().equals(userName) && user.getPassword().equals(password))
                  return user;
@@ -48,7 +48,7 @@
          }
          return null;
      }
-     public void addDrivers(driver driver) {
+     public void addDrivers(driver driver) {//fuction to add 
          drivers.add(driver);
          RideController.addDriver(driver);
      }
@@ -75,7 +75,7 @@
              System.out.println("There's no such a user.");
          }
      }
-     public void addSpecificAreas(String area){
+     public void addSpecificAreas(String area){//add specific areas
          System.out.println("area is added");
          specificAreas.add(area);
      }
