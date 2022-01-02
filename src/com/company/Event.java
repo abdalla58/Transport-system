@@ -20,7 +20,7 @@ public class Event {
         System.out.println(driver.getPrice());
     }
     
-    public void priceAcceptEvent(){
+    public void priceAcceptEvent(){//fuction to price
         System.out.println("client accepted the price");
         LocalTime myObj = LocalTime.now();
         System.out.println(myObj);
@@ -31,7 +31,7 @@ public class Event {
         System.out.println(myObj);
         System.out.println(getCaptainName());
         System.out.println(getUserName());
-    }public void arrivedDestinationEvent(){
+    }public void arrivedDestinationEvent(){//function arrived distination event
         System.out.println("captain reached the destination");
         LocalTime myObj = LocalTime.now();
         System.out.println(myObj);
