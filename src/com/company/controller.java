@@ -24,11 +24,13 @@ public class controller {
         System.out.println("3- Admin");
         System.out.println("Enter 0 to Exit");
     }
+    //display menu
     public void Menu() {
         System.out.println("1- Sign in");
         System.out.println("2- Sign up");
         System.out.println("Enter 0 to return");
     }
+    //user menu
     public void userMenu() {
         System.out.println("Welcome user " + User.getUserName());
         System.out.println("1- Take a ride");
@@ -36,6 +38,7 @@ public class controller {
         System.out.println("3- Display my pending rides");
         System.out.println("4- Sign out");
     }
+    //driver menu
     public void driverMenu() {
         System.out.println("Welcome Driver " + Driver.getUserName());
         System.out.println("1- Show available rides");
@@ -44,6 +47,7 @@ public class controller {
         System.out.println("4- Add favorite Area");
         System.out.println("5- Sign out");
     }
+    //admin menue
     public void adminMainMenu() {
         System.out.println("Welcome Admin");
         System.out.println("1- Accept pending drivers");
