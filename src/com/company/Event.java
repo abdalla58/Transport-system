@@ -8,7 +8,6 @@ public class Event {
     private  user user;
     private String eventTime;
     public Event(){
-
     }
     public String getCaptainName(){
         return driver.getUserName();

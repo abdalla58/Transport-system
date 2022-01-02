@@ -8,6 +8,7 @@
      private String destination;
      private driver mainDriver;
      private double cost;
+     private IDiscount discount;
      private HashMap<Double, driver> availableDrivers;
 
      Ride(String s, String d){
@@ -28,7 +29,7 @@
          availableDrivers.put(cost, iDriver);
      }
      public void setCost(double cost) {
-         this.cost = cost;
+         discount.Discount(cost);
      }
      public void setDriver(driver iDriver) {
          this.mainDriver = iDriver;
