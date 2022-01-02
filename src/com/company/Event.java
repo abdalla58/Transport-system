@@ -12,7 +12,13 @@ public class Event {
     public String getCaptainName(){
         return driver.getUserName();
     }
-    
+    public void priceAskEvent(){
+        System.out.println("Captain put price");
+        LocalTime myObj = LocalTime.now();
+        System.out.println(myObj);
+        System.out.println(getCaptainName());
+        System.out.println(driver.getPrice());
+    }
     
     public void priceAcceptEvent(){
         System.out.println("client accepted the price");
