@@ -11,6 +11,7 @@ public class driver extends personalInfo implements Drivers {
     private String license;
     private String nationalId;
     private IDiscount discount;
+    private Event event;
     private HashMap<rate, Integer> myRatings = new HashMap<rate, Integer>();
     private int sumOfRate;
     private double averageRating;
@@ -84,7 +85,8 @@ public class driver extends personalInfo implements Drivers {
             System.out.println(pendingRides.peek().toString());
             System.out.println("Enter your offer for this Ride: ");
             price = input.nextDouble();
-            //pendingRides.peek().addToMap(this,discount.getPrice() );
+            event.priceAskEvent(getUserName(),price);
+            pendingRides.peek().addToMap(this,price );
             pendingRides.poll();
         }
     }
