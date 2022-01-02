@@ -1,5 +1,5 @@
 package com.company;
-//for frist user use the app
+//for first user use the app
 public class FirstDayDiscount implements IDiscount{
     private driver driver;
     final double dis1 =0.1;
