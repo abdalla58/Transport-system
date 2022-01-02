@@ -3,42 +3,34 @@ package com.company;
 import java.time.LocalTime;
 
 public class Event {
+    private String eventName;
+    private LocalTime eventTime;
+    private String eventCaptain;
+    private String eventUser;
+    private double eventPrice;
+    private database myData=database.getData();
+    public Event(){}
 
-    private  driver driver;
-    private  user user;
-    private String eventTime;
-    public Event(){
+    public Event(String eventName,LocalTime eventTime ,String eventCaptain,String eventUser,double eventPrice){
+        this.eventName=eventName;
+        this.eventTime=eventTime;
+        this.eventCaptain=eventCaptain;
+        this.eventUser=eventUser;
+        this.eventPrice=eventPrice;
     }
-    public String getCaptainName(){
-        return driver.getUserName();
+    public void priceAskEvent(String eventCaptain,double eventPrice){
+        LocalTime myObj = LocalTime.now();
+        myData.addEvent(new Event("Captain put price",myObj,eventCaptain,"",eventPrice));
     }
-    public void priceAskEvent(){
-        System.out.println("Captain put price");
+    public void priceAcceptEvent(String eventUser){
         LocalTime myObj = LocalTime.now();
-        System.out.println(myObj);
-        System.out.println(getCaptainName());
-        System.out.println(driver.getPrice());
+        myData.addEvent(new Event("client accepted the price",myObj,"",eventUser,0));
+    } public void arrivedLocationEvent(String eventCaptain,String eventUser){
+        LocalTime myObj = LocalTime.now();
+        myData.addEvent(new Event("captain reached the location",myObj,eventCaptain,eventUser,0));
+    }public void arrivedDestinationEvent(String eventCaptain,String eventUser){
+        LocalTime myObj = LocalTime.now();
+        myData.addEvent(new Event("captain reached the destination",myObj,eventCaptain,eventUser,0));
     }
-    
-    public void priceAcceptEvent(){//fuction to price
-        System.out.println("client accepted the price");
-        LocalTime myObj = LocalTime.now();
-        System.out.println(myObj);
-        System.out.println(getUserName());
-    } public void arrivedLocationEvent(){
-        System.out.println("captain reached the location");
-        LocalTime myObj = LocalTime.now();
-        System.out.println(myObj);
-        System.out.println(getCaptainName());
-        System.out.println(getUserName());
-    }public void arrivedDestinationEvent(){//function arrived distination event
-        System.out.println("captain reached the destination");
-        LocalTime myObj = LocalTime.now();
-        System.out.println(myObj);
-        System.out.println(getCaptainName());
-        System.out.println(getUserName());
-    }
-
-
 
 }
