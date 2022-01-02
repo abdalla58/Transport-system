@@ -10,6 +10,7 @@ public class controller {
     private static database mydatabase;
     private Scanner input;
     private String string;
+    private Event event;
 
     controller(){
         Admin = new admin();
@@ -98,6 +99,7 @@ public class controller {
                     case "3": {
                         User.displayPending();
                         System.out.println("Choose your Ride");
+                        event.arrivedLocationEvent(Driver.getUserName(),userName);
                         string = input.next();
                         int i = Integer.parseInt(string);
                         if (i >= 1 && i <= User.getSizeOfPending()) {
@@ -105,10 +107,12 @@ public class controller {
                             curr.displayAvailable();
                             System.out.println("Choose your Offer");
                             double cost = input.nextDouble();
+                            event.priceAcceptEvent(userName);
                             driver currDriver = curr.getOffer(cost);
                             if (currDriver != null) {
                                 curr.completeTheRide(currDriver, cost);
                                 User.addRideToComplete(curr);
+                                event.arrivedDestinationEvent(Driver.getUserName(),userName);
                             } else {
                                 System.out.println("Wrong Input of cost.");
                             }
