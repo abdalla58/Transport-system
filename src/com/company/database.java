@@ -10,6 +10,7 @@
      private ArrayList<driver> suspendDrivers=new ArrayList<driver>();
      private ArrayList<user> suspendUsers=new ArrayList<user>();
      private ArrayList<String> specificAreas=new ArrayList<String>();
+     private ArrayList<Event>events=new ArrayList<Event>();
      private database() {
      }
 
@@ -20,14 +21,21 @@
          return Data;
      }
 
-     public driver checkDriver(String userName, String password) {//check account of driver
+     public ArrayList<Event> getEvents() {
+         return events;
+     }
+     public void addEvent(Event event){
+         events.add(event);
+     }
+
+     public driver checkDriver(String userName, String password) {
          for(driver driver: drivers) {
              if(driver.getUserName().equals(userName) && driver.getPassword().equals(password))
                  return driver;
          }
          return null;
      }
-     public user checkUser(String userName, String password) {//check account of user
+     public user checkUser(String userName, String password) {
          for(user user : users) {
              if(user.getUserName().equals(userName) && user.getPassword().equals(password))
                  return user;
@@ -48,7 +56,7 @@
          }
          return null;
      }
-     public void addDrivers(driver driver) {//fuction to add 
+     public void addDrivers(driver driver) {
          drivers.add(driver);
          RideController.addDriver(driver);
      }
@@ -75,7 +83,7 @@
              System.out.println("There's no such a user.");
          }
      }
-     public void addSpecificAreas(String area){//add specific areas
+     public void addSpecificAreas(String area){
          System.out.println("area is added");
          specificAreas.add(area);
      }
